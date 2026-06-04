@@ -1,12 +1,51 @@
-window.addEventListener("scroll", function(){
+const display = document.getElementById("display");
 
-    const navbar = document.getElementById("navbar");
+function appendValue(value){
+    display.value += value;
+}
 
-    if(window.scrollY > 50){
-        navbar.classList.add("scrolled");
+function clearDisplay(){
+    display.value = "";
+}
+
+function deleteLast(){
+    display.value = display.value.slice(0, -1);
+}
+
+function calculate(){
+    try{
+        display.value = eval(display.value);
     }
-    else{
-        navbar.classList.remove("scrolled");
+    catch(error){
+        display.value = "Error";
+    }
+}
+
+// Keyboard Support
+document.addEventListener("keydown", function(event){
+
+    const key = event.key;
+
+    if(
+        (key >= "0" && key <= "9") ||
+        key === "+" ||
+        key === "-" ||
+        key === "*" ||
+        key === "/" ||
+        key === "."
+    ){
+        appendValue(key);
     }
 
+    else if(key === "Enter"){
+        calculate();
+    }
+
+    else if(key === "Backspace"){
+        deleteLast();
+    }
+
+    else if(key === "Escape"){
+        clearDisplay();
+    }
 });
